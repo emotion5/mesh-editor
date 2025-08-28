@@ -256,6 +256,7 @@ export default function ChatInterface({ materials, onMaterialChange }: ChatInter
         })
       }
     } catch (error) {
+      console.error('Chat processing error:', error)
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',

@@ -38,23 +38,22 @@ function ModelViewer({ modelPath, modelScale, modelPosition, onMaterialsFound }:
     
     // 머티리얼 상세 속성 확인
     Object.entries(materialsMap).forEach(([name, material]) => {
-      const mat = material as any
       console.log(`Material "${name}":`, {
         type: material.constructor.name,
-        color: mat.color ? `#${mat.color.getHexString()}` : 'none',
-        metalness: mat.metalness || 0,
-        roughness: mat.roughness || 0,
-        clearcoat: mat.clearcoat || 0,
-        clearcoatRoughness: mat.clearcoatRoughness || 0,
-        transparent: mat.transparent || false,
-        opacity: mat.opacity || 1,
-        emissive: mat.emissive ? `#${mat.emissive.getHexString()}` : 'none',
-        needsUpdate: mat.needsUpdate
+        color: 'color' in material && material.color ? `#${(material.color as THREE.Color).getHexString()}` : 'none',
+        metalness: 'metalness' in material ? material.metalness || 0 : 0,
+        roughness: 'roughness' in material ? material.roughness || 0 : 0,
+        clearcoat: 'clearcoat' in material ? material.clearcoat || 0 : 0,
+        clearcoatRoughness: 'clearcoatRoughness' in material ? material.clearcoatRoughness || 0 : 0,
+        transparent: 'transparent' in material ? material.transparent || false : false,
+        opacity: 'opacity' in material ? material.opacity || 1 : 1,
+        emissive: 'emissive' in material && material.emissive ? `#${(material.emissive as THREE.Color).getHexString()}` : 'none',
+        needsUpdate: material.needsUpdate
       })
       
       // 머티리얼 새로고침 강제 적용
-      if (mat.needsUpdate !== undefined) {
-        mat.needsUpdate = true
+      if (material.needsUpdate !== undefined) {
+        material.needsUpdate = true
       }
     })
     

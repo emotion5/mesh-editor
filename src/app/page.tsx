@@ -50,11 +50,11 @@ export default function Home() {
   const handleMaterialColorChange = (materialName: string, color: string) => {
     const material = materials[materialName]
     if (material && 'color' in material) {
-      const mat = material as any
+      const mat = material as THREE.MeshStandardMaterial | THREE.MeshPhysicalMaterial | THREE.MeshBasicMaterial
       mat.color = new THREE.Color(color)
       mat.needsUpdate = true
       
-      if (mat.transparent && mat.opacity < 1) {
+      if ('transparent' in mat && 'opacity' in mat && mat.transparent && mat.opacity < 1) {
         mat.transparent = true
         mat.needsUpdate = true
       }

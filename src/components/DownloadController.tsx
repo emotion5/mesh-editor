@@ -55,10 +55,10 @@ function DownloadController({ onCapture }: DownloadControllerProps) {
       captureScene()
     }
     
-    window.addEventListener('capture-3d-scene' as any, handleCapture)
+    window.addEventListener('capture-3d-scene', handleCapture as EventListener)
     
     return () => {
-      window.removeEventListener('capture-3d-scene' as any, handleCapture)
+      window.removeEventListener('capture-3d-scene', handleCapture as EventListener)
     }
   }, [gl, scene, camera])
   

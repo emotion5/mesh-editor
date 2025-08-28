@@ -16,12 +16,12 @@ function MaterialList({ materials }: MaterialListProps) {
     // Three.js 머티리얼 색상 변경
     const material = materials[materialName]
     if (material && 'color' in material) {
-      const mat = material as any
+      const mat = material as THREE.MeshStandardMaterial | THREE.MeshPhysicalMaterial | THREE.MeshBasicMaterial
       mat.color = new THREE.Color(color)
       mat.needsUpdate = true  // 머티리얼 새로고침 강제
       
       // 투명도가 있는 머티리얼은 특별 처리
-      if (mat.transparent && mat.opacity < 1) {
+      if ('transparent' in mat && 'opacity' in mat && mat.transparent && mat.opacity < 1) {
         mat.transparent = true
         mat.needsUpdate = true
       }
@@ -30,8 +30,8 @@ function MaterialList({ materials }: MaterialListProps) {
 
   const getMaterialColor = (material: THREE.Material): string => {
     if ('color' in material) {
-      const color = (material as any).color as THREE.Color
-      return '#' + color.getHexString()
+      const mat = material as THREE.MeshStandardMaterial | THREE.MeshPhysicalMaterial | THREE.MeshBasicMaterial
+      return '#' + mat.color.getHexString()
     }
     return '#ffffff'
   }
