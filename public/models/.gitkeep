@@ -1,0 +1,3 @@
+# This file ensures the models directory is tracked by git
+# Place your GLB/GLTF model files in this directory
+# Model files are ignored by git to save repository space

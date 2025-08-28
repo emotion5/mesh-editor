@@ -1,0 +1,12 @@
+{
+  "models": [
+    {"name": "BMW", "path": "/models/bmw.glb"},
+    {"name": "DGSHOE", "path": "/models/dgshoe.glb"},
+    {"name": "KIDS", "path": "/models/nike_kids.glb"}
+  ],
+  "selectedModel": 0,
+  "modelScale": 0.1,
+  "modelPosition": [0, -0.5, 0],
+  "cameraPosition": [3, 2, 3],
+  "backgroundColor": "#f0f0f0"
+}
