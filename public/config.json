@@ -1,10 +1,10 @@
 {
   "models": [
-    {"name": "DGSHOE", "path": "/models/dgshoe.glb"},
-    {"name": "KIDS", "path": "/models/nike_kids.glb"}
+    {"name": "DGSHOE", "path": "/models/dgshoe.glb", "scale": 0.02},
+    {"name": "VANS", "path": "/models/vans.glb", "scale": 0.5},
+    {"name": "KIDS", "path": "/models/nike_kids.glb", "scale": 5}
   ],
   "selectedModel": 0,
-  "modelScale": 0.1,
   "modelPosition": [0, -0.5, 0],
   "cameraPosition": [3, 2, 3],
   "backgroundColor": "#f0f0f0"

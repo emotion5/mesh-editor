@@ -12,9 +12,8 @@ import ThemeToggle from '@/components/ThemeToggle'
 import styles from './page.module.css'
 
 interface Config {
-  models: { name: string, path: string }[]
+  models: { name: string, path: string, scale: number }[]
   selectedModel: number
-  modelScale: number
   modelPosition: [number, number, number]
   cameraPosition: [number, number, number]
   backgroundColor: string
@@ -102,7 +101,7 @@ export default function Home() {
           <Suspense fallback={null}>
             <Scene 
               modelPath={currentModel.path}
-              modelScale={config.modelScale}
+              modelScale={currentModel.scale}
               modelPosition={config.modelPosition}
               onMaterialsFound={handleMaterialsFound}
             />
