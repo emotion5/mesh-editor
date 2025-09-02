@@ -1,8 +1,69 @@
 @import "tailwindcss";
 
 :root {
+  /* 다크 모드 (기본값) */
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  
+  /* 3D 씬 그라데이션 배경 */
+  --gradient-start: #000000;
+  --gradient-mid1: #0f0f0f;
+  --gradient-mid2: #1a1a1a;
+  --gradient-end: #252525;
+  
+  /* 컨트롤 패널 */
+  --control-bg: rgba(20, 20, 20, 0.9);
+  --control-border: rgba(255, 255, 255, 0.1);
+  --control-text: #ffffff;
+  --control-text-secondary: #cccccc;
+  --control-text-muted: #888888;
+  
+  /* 버튼 */
+  --button-bg: rgba(17, 17, 17, 0.85);
+  --button-border: rgba(255, 255, 255, 0.1);
+  --button-hover-bg: rgba(255, 255, 255, 0.15);
+  --button-hover-border: rgba(255, 255, 255, 0.2);
+  
+  /* 로고 */
+  --logo-color: #565656;
+  
+  /* 입력 필드 */
+  --input-bg: rgba(255, 255, 255, 0.1);
+  --input-border: rgba(255, 255, 255, 0.2);
+  --input-border-focus: rgba(255, 255, 255, 0.4);
+}
+
+/* 라이트 모드 */
+:root.light-mode {
   --background: #ffffff;
   --foreground: #171717;
+  
+  /* 3D 씬 그라데이션 배경 - 라이트 버전 */
+  --gradient-start: #f8f9fa;
+  --gradient-mid1: #e9ecef;
+  --gradient-mid2: #dee2e6;
+  --gradient-end: #ced4da;
+  
+  /* 컨트롤 패널 */
+  --control-bg: rgba(255, 255, 255, 0.95);
+  --control-border: rgba(0, 0, 0, 0.15);
+  --control-text: #212529;
+  --control-text-secondary: #343a40;
+  --control-text-muted: #495057;
+  
+  /* 버튼 */
+  --button-bg: rgba(255, 255, 255, 0.9);
+  --button-border: rgba(0, 0, 0, 0.15);
+  --button-hover-bg: rgba(0, 0, 0, 0.08);
+  --button-hover-border: rgba(0, 0, 0, 0.25);
+  
+  /* 로고 */
+  --logo-color: #212529;
+  
+  /* 입력 필드 */
+  --input-bg: rgba(0, 0, 0, 0.05);
+  --input-border: rgba(0, 0, 0, 0.15);
+  --input-border-focus: rgba(0, 0, 0, 0.4);
 }
 
 @theme inline {
@@ -10,13 +71,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {

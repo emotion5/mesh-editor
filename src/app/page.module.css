@@ -11,12 +11,12 @@
   position: relative;
   display: flex;
   flex-direction: row;
-  /* 스튜디오 스타일 그라데이션 배경 - 어두운 톤 */
+  /* 테마에 따른 그라데이션 배경 */
   background: linear-gradient(180deg, 
-    #000000 0%,     /* 상단: 검정색 */
-    #0f0f0f 30%,    /* 중간: 진한 회색 */
-    #1a1a1a 70%,    /* 하단: 어두운 회색 */
-    #252525 100%    /* 최하단: 약간 밝은 어두운 회색 */
+    var(--gradient-start) 0%,
+    var(--gradient-mid1) 30%,
+    var(--gradient-mid2) 70%,
+    var(--gradient-end) 100%
   );
 }
 
@@ -36,10 +36,10 @@
   width: 56px;
   height: 56px;
   border-radius: 0;
-  background: rgba(17, 17, 17, 0.85);
+  background: var(--button-bg);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--button-border);
+  color: var(--control-text);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -51,8 +51,8 @@
 }
 
 .downloadButton:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--button-hover-bg);
+  border-color: var(--button-hover-border);
   transform: translateY(-2px);
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 
               0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -87,7 +87,7 @@
   right: 20px;
   width: 380px;
   max-height: calc(100vh - 40px);
-  background: rgba(20, 20, 20, 0.9);  /* 다크 반투명 배경 */
+  background: var(--control-bg);  /* 테마별 반투명 배경 */
   backdrop-filter: blur(10px);        /* 블러 효과 */
   border-radius: 0;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -100,22 +100,22 @@
 .controls h2 {
   margin: 0;
   padding: 1.5rem 2rem 0.5rem;
-  color: #ffffff;
+  color: var(--control-text);
   font-size: 1.3rem;
   font-weight: 600;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--control-border);
 }
 
 .controls p {
-  color: #cccccc;
+  color: var(--control-text-secondary);
   font-size: 0.9rem;
 }
 
 .modelPath {
   padding: 0.5rem 2rem 1rem;
-  color: #888888;
+  color: var(--control-text-muted);
   font-size: 0.8rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--control-border);
   margin: 0;
 }
 
@@ -157,7 +157,7 @@
 
 .logoText {
   margin: 0;
-  color: #565656;
+  color: var(--logo-color);
   font-family: 'Alfa Slab One', serif;
   font-size: 1.8rem;
   font-weight: 400;
@@ -233,12 +233,12 @@
 
 .modelSelector {
   padding: 1rem 2rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--control-border);
 }
 
 .selectorLabel {
   display: block;
-  color: #cccccc;
+  color: var(--control-text-secondary);
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
 }
@@ -246,17 +246,17 @@
 .modelSelect {
   width: 100%;
   padding: 0.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
   border-radius: 6px;
-  color: #ffffff;
+  color: var(--control-text);
   font-family: 'Inter Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 0.9rem;
 }
 
 .modelSelect:focus {
   outline: none;
-  border-color: rgba(255, 255, 255, 0.4);
+  border-color: var(--input-border-focus);
 }
 
 .modelSelect option {

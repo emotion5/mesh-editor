@@ -1,6 +1,5 @@
 {
   "models": [
-    {"name": "BMW", "path": "/models/bmw.glb"},
     {"name": "DGSHOE", "path": "/models/dgshoe.glb"},
     {"name": "KIDS", "path": "/models/nike_kids.glb"}
   ],

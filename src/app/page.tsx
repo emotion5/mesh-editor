@@ -8,6 +8,7 @@ import MaterialList from '@/components/MaterialList'
 import ChatInterface from '@/components/ChatInterface'
 import ModeSwitch from '@/components/ModeSwitch'
 import DownloadController from '@/components/DownloadController'
+import ThemeToggle from '@/components/ThemeToggle'
 import styles from './page.module.css'
 
 interface Config {
@@ -24,6 +25,7 @@ export default function Home() {
   const [selectedModelIndex, setSelectedModelIndex] = useState<number>(0)
   const [materials, setMaterials] = useState<Record<string, THREE.Material>>({})
   const [isChatMode, setIsChatMode] = useState<boolean>(false)
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(true)
 
   useEffect(() => {
     // config.json 로드
@@ -36,6 +38,15 @@ export default function Home() {
       })
       .catch(err => console.error('Failed to load config:', err))
   }, [])
+
+  useEffect(() => {
+    // 테마 변경 시 document root에 클래스 적용
+    if (isDarkMode) {
+      document.documentElement.classList.remove('light-mode')
+    } else {
+      document.documentElement.classList.add('light-mode')
+    }
+  }, [isDarkMode])
 
   const handleMaterialsFound = useCallback((foundMaterials: Record<string, THREE.Material>) => {
     console.log('Materials found in App:', Object.keys(foundMaterials))
@@ -98,6 +109,10 @@ export default function Home() {
             <DownloadController />
           </Suspense>
         </Canvas>
+        <ThemeToggle 
+          isDarkMode={isDarkMode}
+          onToggle={() => setIsDarkMode(!isDarkMode)}
+        />
         <button 
           className={styles.downloadButton}
           onClick={handleDownload}
@@ -112,7 +127,7 @@ export default function Home() {
         </button>
       </div>
       <div className={styles.logo}>
-        <h1 className={styles.logoText}>Uable Configurator</h1>
+        <h1 className={styles.logoText}>U Shoes</h1>
       </div>
       <div className={styles.controls}>
         {config.models.length > 1 && (
