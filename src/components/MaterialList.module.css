@@ -1,6 +1,6 @@
 .container {
   padding: 1rem;
-  height: 100%;
+  flex: 1;
   overflow-y: auto;
   /* 스크롤바 숨기기 */
   scrollbar-width: none; /* Firefox */

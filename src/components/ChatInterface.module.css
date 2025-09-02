@@ -1,9 +1,9 @@
 .container {
   display: flex;
   flex-direction: column;
-  height: 400px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  flex: 1;
+  background: var(--control-bg);
+  border: 1px solid var(--control-border);
   border-radius: 12px;
   overflow: hidden;
   backdrop-filter: blur(10px);
@@ -48,9 +48,9 @@
 }
 
 .assistantMessage .message {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--input-bg);
+  color: var(--control-text);
+  border: 1px solid var(--control-border);
   border-bottom-left-radius: 4px;
 }
 
@@ -74,7 +74,7 @@
 .typingIndicator span {
   width: 8px;
   height: 8px;
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--control-text-secondary);
   border-radius: 50%;
   animation: typing 1.4s infinite ease-in-out;
 }
@@ -100,28 +100,28 @@
 
 .inputContainer {
   padding: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--control-border);
   display: flex;
   gap: 0.5rem;
 }
 
 .input {
   flex: 1;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
   border-radius: 20px;
   padding: 0.75rem 1rem;
-  color: white;
+  color: var(--control-text);
   font-size: 0.875rem;
 }
 
 .input:focus {
   outline: none;
-  border-color: #3b82f6;
+  border-color: var(--input-border-focus);
 }
 
 .input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--control-text-muted);
 }
 
 .sendButton {
@@ -143,17 +143,24 @@
 }
 
 .sendButton:disabled {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--input-bg);
   cursor: not-allowed;
 }
 
 .apiKeyWarning {
-  background: rgba(59, 130, 246, 0.2);
+  background: rgba(59, 130, 246, 0.1);
   border: 1px solid rgba(59, 130, 246, 0.3);
   border-radius: 8px;
   padding: 0.75rem;
   margin: 1rem;
-  color: #93c5fd;
+  color: var(--control-text-secondary);
   font-size: 0.75rem;
   line-height: 1.4;
+}
+
+/* 라이트 모드에서 API 키 경고 */
+:global(.light-mode) .apiKeyWarning {
+  background: rgba(59, 130, 246, 0.05);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  color: #2563eb;
 }

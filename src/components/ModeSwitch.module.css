@@ -1,5 +1,6 @@
 .container {
   margin-bottom: 1.5rem;
+  padding: 1rem 2rem;
 }
 
 .switchWrapper {
@@ -17,7 +18,7 @@
 }
 
 .labelText {
-  color: white;
+  color: var(--control-text);
   font-size: 0.875rem;
   font-weight: 500;
 }
@@ -42,10 +43,10 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--input-bg);
   transition: 0.3s;
   border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--input-border);
 }
 
 .switchSlider:before {
@@ -55,7 +56,7 @@
   width: 16px;
   left: 3px;
   bottom: 3px;
-  background-color: white;
+  background-color: var(--control-text);
   transition: 0.3s;
   border-radius: 50%;
 }
@@ -70,9 +71,15 @@
 }
 
 .switchSlider:hover {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: var(--button-hover-bg);
 }
 
 .switchInput:checked + .switchSlider:hover {
   background-color: #2563eb;
+}
+
+/* 라이트 모드에서 토글 버튼 내부 원(슬라이더) 색상 조정 */
+:global(.light-mode) .switchSlider:before {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
