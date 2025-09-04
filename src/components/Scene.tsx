@@ -1,4 +1,4 @@
-import { OrbitControls, Environment, useTexture } from '@react-three/drei'
+import { OrbitControls, Environment, Grid } from '@react-three/drei'
 import ModelViewer from './ModelViewer'
 import SmartModelViewer from './UniversalModelViewer'
 import * as THREE from 'three'
@@ -9,28 +9,6 @@ interface SceneProps {
   modelScale: number
   modelPosition: [number, number, number]
   onMaterialsFound: (materials: Record<string, THREE.Material>) => void
-}
-
-function GroundPlane() {
-  const soilTexture = useTexture('/textures/soil.png')
-  
-  // 텍스처 설정
-  soilTexture.wrapS = soilTexture.wrapT = THREE.RepeatWrapping
-  soilTexture.repeat.set(8, 8) // 8x8 반복
-  
-  return (
-    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.05, 0]}>
-      <circleGeometry args={[30, 64]} />
-      <meshStandardMaterial
-        map={soilTexture}
-        transparent
-        opacity={0.05}  // 조금 더 진하게
-        roughness={0.8}
-        metalness={0}
-        color="#808080"  // 회색 틴트로 더 어둡게
-      />
-    </mesh>
-  )
 }
 
 function Scene({ modelPath, generatedModelUrl, modelScale, modelPosition, onMaterialsFound }: SceneProps) {
@@ -46,14 +24,14 @@ function Scene({ modelPath, generatedModelUrl, modelScale, modelPosition, onMate
       />
       
       {/* 조명 설정 - PBR 최적화 */}
-      <ambientLight intensity={0.2} />
+      <ambientLight intensity={0.3} />
       <directionalLight 
         position={[10, 10, 5]} 
-        intensity={1.2} 
+        intensity={1.0} 
       />
       <directionalLight 
         position={[-5, 5, -5]} 
-        intensity={0.6} 
+        intensity={0.5} 
       />
       
       {/* 카메라 컨트롤 - 마우스로 회전/줌 가능 */}
@@ -65,8 +43,21 @@ function Scene({ modelPath, generatedModelUrl, modelScale, modelPosition, onMate
         maxDistance={20}
       />
       
-      {/* 바닥 텍스처 */}
-      <GroundPlane />
+      {/* 그리드 뷰어 */}
+      <Grid 
+        position={[0, -0.01, 0]}
+        args={[20, 20]}
+        cellSize={1}
+        cellThickness={0.5}
+        cellColor="#6b7280"
+        sectionSize={5}
+        sectionThickness={1}
+        sectionColor="#374151"
+        fadeDistance={25}
+        fadeStrength={1}
+        followCamera={false}
+        infiniteGrid={true}
+      />
       
       {/* 3D 모델 */}
       {activeModelUrl && (
@@ -78,8 +69,6 @@ function Scene({ modelPath, generatedModelUrl, modelScale, modelPosition, onMate
           key={`model-${activeModelUrl}`} // URL이 변경될 때마다 컴포넌트 재마운트
         />
       )}
-      
-      {/* 배경은 CSS 그라데이션 + 바닥 텍스처 조합 */}
     </>
   )
 }

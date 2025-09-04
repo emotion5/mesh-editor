@@ -30,12 +30,14 @@ Next.js 15, React Three Fiber, Python FastAPI 백엔드, Anthropic Claude API로
 
 ### 주요 컴포넌트 아키텍처
 
+**프론트엔드 컴포넌트:**
 - **`src/app/page.tsx`**: 3D 씬과 UI 간 상태 관리를 조율하는 메인 애플리케이션 컴포넌트
-- **`src/components/Scene.tsx`**: 조명, 환경, 바닥면, 카메라 컨트롤과 함께 Three.js 씬 설정
-- **`src/components/ModelViewer.tsx`**: useGLTF 훅을 사용하여 GLB 모델 로딩 및 머티리얼 추출 처리
+- **`src/components/Scene.tsx`**: 조명, 환경, 그리드 뷰어, 카메라 컨트롤과 함께 Three.js 씬 설정
+- **`src/components/UniversalModelViewer.tsx`**: GLB/GLTF/OBJ 등 다양한 포맷 지원하는 범용 3D 모델 뷰어
 - **`src/components/MaterialList.tsx`**: 발견된 각 머티리얼에 대한 수동 색상 선택기 인터페이스 렌더링
-- **`src/components/ChatInterface.tsx`**: API 사용 불가 시 폴백 키워드 매칭을 갖춘 AI 기반 채팅 인터페이스
-- **`src/components/ModeSwitch.tsx`**: 수동 모드와 채팅 모드 간 전환
+- **`src/components/ChatInterface.tsx`**: 머티리얼 색상 변경을 위한 AI 기반 채팅 인터페이스
+- **`src/components/GeneratorInterface.tsx`**: AI 3D 모델 생성을 위한 프롬프트 입력 인터페이스
+- **`src/components/ModeSwitch.tsx`**: 수동/채팅/생성 모드 간 전환
 - **`src/components/DownloadController.tsx`**: 3D 씬 스크린샷 캡처 및 다운로드 처리
 - **`src/app/api/claude/route.ts`**: Anthropic Claude API로 요청을 프록시하는 Next.js API 라우트
 
@@ -57,11 +59,38 @@ Next.js 15, React Three Fiber, Python FastAPI 백엔드, Anthropic Claude API로
 - **머티리얼 매칭**: AI가 "신발끈을 파란색으로 변경"과 같은 사용자 입력을 분석하여 3D 모델의 실제 머티리얼 이름에 매핑
 - **색상 처리**: 자연어 색상을 hex 코드로 변환
 
+### AI 3D 모델 생성 시스템
+
+백엔드의 FastAPI 서버는 Blender와 Claude API를 통합한 3D 모델 생성 시스템을 제공합니다:
+
+**주요 컴포넌트:**
+- **`mesh-editor-backend/app/services/blender_generator.py`**: Blender 헤드리스 모드 실행 및 GLB 내보내기 담당
+- **`mesh-editor-backend/app/services/claude_service.py`**: Claude API로 자연어 프롬프트를 Blender Python 코드로 변환
+- **`mesh-editor-backend/app/main.py`**: `/api/generate` 엔드포인트 제공
+
+**생성 플로우:**
+1. **프롬프트 처리**: Claude API가 "빨간색 컵 만들어줘" → 안전한 Blender Python 코드 생성
+2. **Blend 파일 생성**: 첫 번째 Blender 실행으로 .blend 파일 생성
+3. **GLB 변환**: 두 번째 Blender 실행으로 .blend → .glb 변환 (`bpy.ops.export_scene.gltf` 사용)
+4. **파일 검증**: GLB 파일 존재 및 크기 확인 후 프론트엔드에 반환
+
+**핵심 기술적 해결:**
+- **headless 모드 제한 극복**: `bpy.ops.export_scene.gltf` 오퍼레이터를 정확히 식별하여 사용 (gltf2가 아닌 gltf)
+- **안전한 코드 생성**: Claude에게 `bpy.ops.transform.*` 대신 `obj.scale` 직접 할당 강제
+- **크기 최적화**: 기본 스케일을 10배 확대하여 시각적으로 적절한 크기로 생성
+
 ### 환경 설정
 
+**프론트엔드:**
 - **API 키**: AI 채팅 기능을 위해 `.env.local`에 `ANTHROPIC_API_KEY` 설정
 - **3D 모델**: GLB 파일을 `/public/models/` 디렉토리에 배치
 - **모델 설정**: 새 모델 추가나 씬 설정 조정을 위해 `/public/config.json` 업데이트
+
+**백엔드:**
+- **Blender 설치**: 시스템에 Blender 4.5.2+ 설치 필요 (macOS: `/Applications/Blender.app/Contents/MacOS/Blender`)
+- **Python 환경**: `mesh-editor-backend/` 디렉토리에서 `pip install fastapi uvicorn anthropic python-dotenv` 설치
+- **API 키 공유**: 백엔드의 `.env` 파일에도 `ANTHROPIC_API_KEY` 설정 필요
+- **백엔드 실행**: `uvicorn app.main:app --reload --port 8000`
 
 ### TypeScript 고려사항
 
