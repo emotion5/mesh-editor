@@ -1,9 +1,11 @@
 import { OrbitControls, Environment, useTexture } from '@react-three/drei'
 import ModelViewer from './ModelViewer'
+import SmartModelViewer from './UniversalModelViewer'
 import * as THREE from 'three'
 
 interface SceneProps {
-  modelPath: string
+  modelPath?: string
+  generatedModelUrl?: string
   modelScale: number
   modelPosition: [number, number, number]
   onMaterialsFound: (materials: Record<string, THREE.Material>) => void
@@ -31,7 +33,9 @@ function GroundPlane() {
   )
 }
 
-function Scene({ modelPath, modelScale, modelPosition, onMaterialsFound }: SceneProps) {
+function Scene({ modelPath, generatedModelUrl, modelScale, modelPosition, onMaterialsFound }: SceneProps) {
+  // 사용할 모델 URL 결정 (생성된 모델이 우선)
+  const activeModelUrl = generatedModelUrl || modelPath
   return (
     <>
       {/* PBR을 위한 환경맵 - metalness/roughness 효과 극대화 */}
@@ -65,12 +69,15 @@ function Scene({ modelPath, modelScale, modelPosition, onMaterialsFound }: Scene
       <GroundPlane />
       
       {/* 3D 모델 */}
-      <ModelViewer 
-        modelPath={modelPath}
-        modelScale={modelScale}
-        modelPosition={modelPosition}
-        onMaterialsFound={onMaterialsFound}
-      />
+      {activeModelUrl && (
+        <SmartModelViewer 
+          modelPath={activeModelUrl}
+          modelScale={modelScale}
+          modelPosition={modelPosition}
+          onMaterialsFound={onMaterialsFound}
+          key={`model-${activeModelUrl}`} // URL이 변경될 때마다 컴포넌트 재마운트
+        />
+      )}
       
       {/* 배경은 CSS 그라데이션 + 바닥 텍스처 조합 */}
     </>

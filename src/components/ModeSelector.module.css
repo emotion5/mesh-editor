@@ -1,0 +1,77 @@
+.container {
+  margin-bottom: 20px;
+}
+
+.modeButtons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.modeButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 8px;
+  background: var(--input-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.modeButton:hover {
+  border-color: var(--primary-color);
+  background: var(--hover-bg);
+}
+
+.modeButton.active {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+.icon {
+  font-size: 18px;
+}
+
+.label {
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.description {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-secondary);
+  min-height: 16px;
+}
+
+/* 다크/라이트 모드 대응 */
+:root {
+  --input-bg: #f8fafc;
+  --border-color: #e5e7eb;
+  --hover-bg: #f1f5f9;
+  --primary-color: #3b82f6;
+  --text-secondary: #6b7280;
+}
+
+:root.light-mode {
+  --input-bg: #f8fafc;
+  --border-color: #e5e7eb;
+  --hover-bg: #f1f5f9;
+  --primary-color: #3b82f6;
+  --text-secondary: #6b7280;
+}
+
+:root:not(.light-mode) {
+  --input-bg: #374151;
+  --border-color: #4b5563;
+  --hover-bg: #4b5563;
+  --primary-color: #60a5fa;
+  --text-secondary: #9ca3af;
+}

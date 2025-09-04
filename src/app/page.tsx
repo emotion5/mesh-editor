@@ -6,7 +6,8 @@ import * as THREE from 'three'
 import Scene from '@/components/Scene'
 import MaterialList from '@/components/MaterialList'
 import ChatInterface from '@/components/ChatInterface'
-import ModeSwitch from '@/components/ModeSwitch'
+import GeneratorInterface from '@/components/GeneratorInterface'
+import ModeSelector from '@/components/ModeSelector'
 import DownloadController from '@/components/DownloadController'
 import ThemeToggle from '@/components/ThemeToggle'
 import styles from './page.module.css'
@@ -24,6 +25,8 @@ export default function Home() {
   const [selectedModelIndex, setSelectedModelIndex] = useState<number>(0)
   const [materials, setMaterials] = useState<Record<string, THREE.Material>>({})
   const [isChatMode, setIsChatMode] = useState<boolean>(false)
+  const [isGeneratorMode, setIsGeneratorMode] = useState<boolean>(false)
+  const [generatedModelUrl, setGeneratedModelUrl] = useState<string | null>(null)
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true)
 
   useEffect(() => {
@@ -71,6 +74,21 @@ export default function Home() {
     }
   }
 
+  const handleModelGenerated = (modelUrl: string) => {
+    setGeneratedModelUrl(modelUrl)
+    setMaterials({}) // 새 모델이므로 머티리얼 리스트 초기화
+  }
+
+  const handleModeChange = (mode: 'manual' | 'chat' | 'generator') => {
+    setIsChatMode(mode === 'chat')
+    setIsGeneratorMode(mode === 'generator')
+    
+    if (mode === 'manual') {
+      // 수동 모드로 돌아갈 때 생성된 모델 URL 제거 (원래 모델로)
+      setGeneratedModelUrl(null)
+    }
+  }
+
   if (!config) {
     return <div className={styles.loading}>설정 파일 로딩 중...</div>
   }
@@ -101,6 +119,7 @@ export default function Home() {
           <Suspense fallback={null}>
             <Scene 
               modelPath={currentModel.path}
+              generatedModelUrl={generatedModelUrl}
               modelScale={currentModel.scale}
               modelPosition={config.modelPosition}
               onMaterialsFound={handleMaterialsFound}
@@ -145,11 +164,15 @@ export default function Home() {
             </select>
           </div>
         )}
-        <ModeSwitch 
-          isChecked={isChatMode}
-          onChange={setIsChatMode}
+        <ModeSelector
+          currentMode={isGeneratorMode ? 'generator' : isChatMode ? 'chat' : 'manual'}
+          onChange={handleModeChange}
         />
-        {isChatMode ? (
+        {isGeneratorMode ? (
+          <GeneratorInterface 
+            onModelGenerated={handleModelGenerated}
+          />
+        ) : isChatMode ? (
           <ChatInterface 
             materials={materials}
             onMaterialChange={handleMaterialColorChange}
